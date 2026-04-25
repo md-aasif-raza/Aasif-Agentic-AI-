@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI - Premium Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-dark">
+    <!-- Background Effects -->
+    <div class="ambient-light"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Instagram Follow Prompt Modal -->
+    <div id="instaModal" class="overlay">
+        <div class="modal-box glass-panel">
+            <div class="logo-3d-container">
+                <img src="logo.png" alt="Aasif AI Logo" class="logo-3d" id="instaLogo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Aasif'">
+            </div>
+            <h2>Welcome to Agentic AI</h2>
+            <p>Created by Md Aasif Raza. Please follow my Instagram to support!</p>
+            <div class="btn-group">
+                <button class="btn-primary" onclick="window.open('https://www.instagram.com/aasif__0.3/?hl=en', '_blank'); closeInstaModal();">Click Now to Follow</button>
+                <button class="btn-secondary" onclick="closeInstaModal()">Do it Later</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Overlay (Login / Signup) -->
+    <div id="authOverlay" class="overlay active">
+        <div class="auth-box glass-panel">
+            <div class="logo-3d-container">
+                <img src="logo.png" alt="Aasif AI Logo" class="logo-3d" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Aasif'">
+            </div>
+            <div class="auth-header">
+                <h2><span class="gradient-text">Agentic AI</span></h2>
+                <p>Secure Autonomous Intelligence</p>
+            </div>
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="authName" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="authEmail" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="authPhone" placeholder="Mobile Number" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="authPass" placeholder="Secure Password" required minlength="6">
+                </div>
+                <button type="submit" class="btn-primary" id="authSubmitBtn">Secure Login / Signup</button>
+            </form>
+            <p class="auth-secure-msg"><i class="fas fa-shield-alt"></i> End-to-End Encrypted Data</p>
+        </div>
+    </div>
+
+    <!-- User Settings Modal -->
+    <div id="settingsModal" class="overlay">
+        <div class="modal-box glass-panel">
+            <div class="modal-header">
+                <h2>Account & Settings</h2>
+                <button class="icon-btn" onclick="closeSettings()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label>Theme</label>
+                    <select id="themeSelector" onchange="changeTheme(this.value)">
+                        <option value="theme-dark">Dark Theme</option>
+                        <option value="theme-light">Light Theme</option>
+                        <option value="theme-night">Night (OLED) Theme</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Update Full Name</label>
+                    <input type="text" id="updateName">
+                </div>
+                <div class="setting-group">
+                    <label>Update Mobile Number</label>
+                    <input type="tel" id="updatePhone">
+                </div>
+                <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="mainDashboard" class="dashboard-layout" style="display: none;">
+        
+        <!-- Left Sidebar (Modes & User) -->
+        <aside class="sidebar glass-panel" id="leftSidebar">
+            <div class="brand">
+                <img src="logo.png" alt="Logo" class="sidebar-logo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Aasif'">
+                <h3>Agentic <span class="gradient-text">AI</span></h3>
+            </div>
+            
+            <div class="user-profile" onclick="openSettings()" style="cursor: pointer;" title="Edit Settings">
+                <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+                <div class="info">
+                    <h4 id="displayUserName">Guest</h4>
+                    <p class="plan-badge max-plan">Free Premium Access</p>
+                </div>
+                <i class="fas fa-cog" style="margin-left: auto; color: var(--text-muted);"></i>
+            </div>
+
+            <div class="nav-menu">
+                <div class="nav-title">Intelligence Modes</div>
+                <button class="nav-item active" onclick="setMode('General Chat')"><i class="fas fa-comment-dots"></i> General Chat</button>
+                <button class="nav-item" onclick="setMode('Research')"><i class="fas fa-microscope"></i> Research Engine</button>
+                <button class="nav-item" onclick="setMode('Business')"><i class="fas fa-briefcase"></i> Business Agent</button>
+                
+                <div class="nav-title" style="margin-top: 20px;">Financial Analysis</div>
+                <button class="nav-item" onclick="setMode('Stock Market')"><i class="fas fa-chart-line"></i> Stock Market</button>
+                <button class="nav-item" onclick="setMode('Crypto')"><i class="fab fa-bitcoin"></i> Crypto Analysis</button>
+                <button class="nav-item" onclick="setMode('Forex')"><i class="fas fa-money-bill-wave"></i> Forex Markets</button>
+            </div>
+        </aside>
+
+        <!-- Center Chat Container -->
+        <main class="chat-container">
+            <header class="chat-header">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <div class="current-mode">
+                    <span id="modeBadge" class="badge">General Chat</span>
+                </div>
+                <div class="controls-right">
+                    <div class="toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" id="deepThinkingToggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <span id="dtLabel"><i class="fas fa-brain"></i> Deep Thinking</span>
+                    </div>
+                    <button class="icon-btn" onclick="toggleNews()" title="Toggle Global News"><i class="fas fa-globe"></i></button>
+                    <button class="icon-btn" onclick="logout()" title="Secure Logout"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </header>
+
+            <div id="chatHistory" class="chat-history">
+                <div class="message ai-message">
+                    <div class="avatar"><img src="logo.png" alt="AI" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=Aasif'"></div>
+                    <div class="content">
+                        Hello! I am Aasif AI Bot, your highly advanced Agentic AI. All premium features are currently completely <strong>FREE</strong>! What would you like to achieve today?
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area glass-panel">
+                <div class="input-wrapper">
+                    <button class="voice-btn" id="voiceBtn" title="Voice Command"><i class="fas fa-microphone"></i></button>
+                    <textarea id="taskInput" placeholder="Message Aasif AI Bot..."></textarea>
+                    <button class="send-btn" id="runBtn" title="Send Task"><i class="fas fa-paper-plane"></i></button>
+                </div>
+                <div class="footer-text"><i class="fas fa-shield-check"></i> End-to-End Secure. Built by Md Aasif Raza.</div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar (Global News Popup/Sidebar) -->
+        <aside class="news-sidebar glass-panel" id="newsSidebar">
+            <div class="news-header">
+                <h3><i class="fas fa-bolt" style="color: var(--warning);"></i> Global Live News</h3>
+                <button class="icon-btn" onclick="toggleNews()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="news-list" id="newsList">
+                <div class="news-card">
+                    <span class="news-tag stock">Stock Market</span>
+                    <p>Global markets hit record highs amid AI boom. Nifty crosses new milestones.</p>
+                </div>
+                <div class="news-card">
+                    <span class="news-tag crypto">Crypto</span>
+                    <p>Bitcoin approaches new resistance levels. Web3 adoption accelerates globally.</p>
+                </div>
+                <div class="news-card">
+                    <span class="news-tag ai">AI & Tech</span>
+                    <p>Md Aasif Raza launches ultra-premium Agentic AI with advanced reasoning capabilities.</p>
+                </div>
+                <div class="news-card">
+                    <span class="news-tag forex">Forex</span>
+                    <p>USD index shows volatility ahead of major central bank meetings this week.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
